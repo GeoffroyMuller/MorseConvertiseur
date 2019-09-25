@@ -13,11 +13,13 @@ public class Main extends Application {
 		try {
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../design_interface/_form.fxml"));
-			//BorderPane root = new BorderPane();
 			Parent root = loader.load();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("../design_interface/application.css").toExternalForm());
-			windows.setTitle("TTT");
+			Scene scene = new Scene(root,929,550);
+			scene.getStylesheets().add(getClass().getResource("../design_interface/css_form.css").toExternalForm());
+			windows.setMinWidth(945);
+			windows.setMinHeight(580);
+			windows.setMaxWidth(945);
+			windows.setTitle("Morse Convertisseur");
 			windows.setScene(scene);
 			windows.show();
 		} catch(Exception e) {
