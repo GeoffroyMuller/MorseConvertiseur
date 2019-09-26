@@ -22,4 +22,14 @@ public class Convertisseur {
 		else return true;
 	}
 	
+	
+	// recuperer txt mis par l'utilisateur en lettre pour convertir vers morse
+	public Listelettre resmorse(String txt) {
+		String convmorse = "";
+		for (char letter: txt.toCharArray()) {
+			convmorse = convmorse.concact(Listelettre.searchCode(letter)+'/');
+		}
+		return convmorse;
+	}
+	
 }
