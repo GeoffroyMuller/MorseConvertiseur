@@ -1,14 +1,13 @@
 package application;
 
-import kenzer.Liste;
 
 public class Listelettre {
 	char lettre;
 	String morse;
 	Listelettre suiv;
 	
-	public boolean estvide() {
-		return this==null;
+	public static boolean estvide(Listelettre l) {
+		return l==null;
 	}
 	
 	public char valeurlettre()
@@ -26,6 +25,7 @@ public class Listelettre {
 		return suiv; 
 	}
 	
+	
 	public static boolean appartient(char ltr, Listelettre l) {
 		while (!l.estvide())
 		{
@@ -38,14 +38,39 @@ public class Listelettre {
 		return false;
 	}
 	
-	public String tradmorse (char lettre) {
-		String conv = "";
-		if(appartient(lettre, this))
+//	public Listelettre resmorse(String txt) {
+//		String convmorse = "";
+//		for (char letter: txt.toCharArray()) {
+//			convmorse = convmorse.concact(Listelettre.searchCode(letter)+'/');
+//		}
+//		return convmorse;
+//	}
+	
+	public static String tradmorse (char lettre, Listelettre l) {
+		String conv ="";
+		if (lettre == ' ') return "espace";
+		while (! estvide(l))
 		{
-			conv = conv + "|" + 
+			if (Character.toLowerCase(l.valeurlettre())==Character.toLowerCase(lettre))
+			{
+				conv = l.valeurmorse();
+				return l.valeurmorse();
+			}
+			l=l.reste();
 		}
 		return conv;
 	}
+	
+	public static void afficher(Listelettre l)
+	{ 
+		while (l != null)
+		{
+			System.out.println(l.valeurlettre());
+			System.out.println(l.valeurmorse());
+			l = l.reste();
+		}
+	}
+
 
 	
 
