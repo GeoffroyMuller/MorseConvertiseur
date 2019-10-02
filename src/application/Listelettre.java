@@ -27,7 +27,7 @@ public class Listelettre {
 	
 	
 	public static boolean appartient(char ltr, Listelettre l) {
-		while (!l.estvide())
+		while (!estvide(l))
 		{
 			if (l.valeurlettre()==ltr)
 			{
@@ -62,7 +62,7 @@ public class Listelettre {
 	}
 	
 	public static void afficher(Listelettre l)
-	{ 
+	{
 		while (l != null)
 		{
 			System.out.println(l.valeurlettre());

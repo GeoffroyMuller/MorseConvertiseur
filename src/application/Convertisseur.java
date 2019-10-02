@@ -21,10 +21,10 @@ public class Convertisseur {
 			String sligne = "";
 			String[] smots;
 			abp = new ArbreBinaire();
-
+			ArbreBinaire abs = new ArbreBinaire();
 			while((sligne = bfr.readLine())!=null) {
 				System.out.println("ligne : "+sligne);
-				creerArbreBinaire(abp, sligne);
+				creerArbreBinaireRec(abs, sligne, 2, true);
 			}
 
 
@@ -35,39 +35,38 @@ public class Convertisseur {
 
 	}
 
-	public void creerArbreBinaire(ArbreBinaire ap, String sligne) {
+	public void creerArbreBinaireRec(ArbreBinaire ab, String sligne, int index, boolean init) {
 		if(!sligne.equals("")) {
+			if(init) {
+				abp = ab;
+				init = false;
+			}
+
 			char lettre = sligne.charAt(0);
-
-			ArbreBinaire a = new ArbreBinaire();
-			a = ap;
-
-			for(int i = 0;i<sligne.length();i++) {
-				char c = sligne.charAt(i);
+			if(index >= sligne.length()) {
+				ab.setLettre(lettre);
+			}else {
+				char c = sligne.charAt(index);
 				if( c == '.' ) {
 					System.out.println(">.");
-					a = a.creerRetournerGauche();
+					creerArbreBinaireRec(ab.creerRetournerGauche(), sligne , index+1, false);
 				}else if ( c == '-' ) {
 					System.out.println(">-");
-					a = a.creerRetournerDroit();
+					creerArbreBinaireRec(ab.creerRetournerDroit(), sligne , index+1, false);
 				}
 			}
-			a.setLettre(lettre);
-			//System.out.println("APPP::: "+ap.getGauche().getDroit()+"  lettre====="+ap.getGauche().getDroit().getLettre() );
-			//System.out.println("A::: "+a+"  lettre====="+a.getLettre() );
 		}
-		//ap.afficher();
-
 	}
 
 	public String convertirMorseTexte(String s) {
 		String res = "";
 
 		ArbreBinaire a = new ArbreBinaire();
+		a=abp;
 
 		for(int i = 0;i<s.length();i++) {
 			System.out.println("length "+s.length()+"   i::: "+i);
-			try {
+			//try {
 			char c = s.charAt(i);
 			if( c == '.' ) {
 				System.out.println(">.");
@@ -76,15 +75,17 @@ public class Convertisseur {
 				System.out.println(">-");
 				a = a.getDroit();
 			}else if ( c == ' ') {
+				System.out.println("lettre :: "+a.getLettre());
 				res = res + a.getLettre();
 				if( s.charAt(i+1) == ' ' ) {
 					res = res + " ";
 				}
 			}
-			}catch (Exception e) {
+			//System.out.println("zte "+res);
+			/*}catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-			}
+			}*/
 		}
 
 		System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzz  "+res);
@@ -92,12 +93,17 @@ public class Convertisseur {
 		return null;
 	}
 
+
+
+
+
+
 	public static Listelettre txtsplit(String remplirconv) {
 
 		String[] parts = remplirconv.split("/"); // split couple
 		Listelettre precedent = null; //noeuds precedent de celui qu'on traitera a chaque tour du while
 		Listelettre premier = null; // premier noeuds de la liste
-		
+
 		//System.out.println("Voici la liste qui en decoule : ");
 		for (int i=0; i< parts.length; i++)
 		{
@@ -115,13 +121,18 @@ public class Convertisseur {
 		return premier;
 	}
 
+
+
+
 	public static boolean estpasvide(String tabl) {
 		if (tabl == null) return false;
 		if (tabl == "") return false;
 		else return true;
 	}
-	
-	
+
+
+
+
 	public static String test() throws IOException {
 		String fichier = "src/centre/Convertisseur.txt";
 		BufferedReader bfr = new BufferedReader(new FileReader(fichier));
@@ -130,13 +141,16 @@ public class Convertisseur {
 		String sligne = "";
 		String[] smots;
 		String test ="";
-		
+
 		while((sligne = bfr.readLine())!=null) {
 			test = test + sligne+"/";
 		}
 		//System.out.println("Voici la strings de traduction : "+test);
 		return test;
 	}
+
+
+
 
 
 	public static void main(String[] args) throws IOException {
@@ -148,7 +162,7 @@ public class Convertisseur {
 
 		Listelettre debutliste = txtsplit(Convertisseur.test());
 		//System.out.println("Equivalent de 'a' en morse depuis le liste : "+Listelettre.tradmorse('a', debutliste));
-		
+
 		char ltr;
 		String resultatmorse = "";
 		String stringdetest="Je ttttt eqdsf sdgf";
@@ -160,9 +174,9 @@ public class Convertisseur {
 			resultatmorse = resultatmorse + tradchar;
 		}	
 		System.out.println(resultatmorse);
-		
-		
-		
+
+
+
 		// faire menage methodes inutiles
 	}
 
