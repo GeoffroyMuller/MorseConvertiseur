@@ -9,92 +9,119 @@ import centre.ArbreBinaire;
 public class Convertisseur {
 
 
-	ArbreBinaire abp ;
+	public static ArbreBinaire abp ;
 
-	public void chargerFichierConvertisseur(){
+	/**
+	 * Charge le fichier de convertion
+	 */
+	public static void chargerFichierConvertisseur(){
 
 		try {
 			String fichier = "src/centre/Convertisseur.txt";
 			BufferedReader bfr = new BufferedReader(new FileReader(fichier));
 			System.out.println(">fichier "+fichier+" charger");
-			String res = "";
 			String sligne = "";
-			String[] smots;
 			abp = new ArbreBinaire();
 			ArbreBinaire abs = new ArbreBinaire();
 			while((sligne = bfr.readLine())!=null) {
 				System.out.println("ligne : "+sligne);
 				creerArbreBinaireRec(abs, sligne, 2, true);
 			}
-
-
 		}catch (IOException e) {
 			// TODO: handle exception
+			System.out.println("erreur > chargement du dictionnaire (fichier \"Convertisseur.txt\")");
 			e.printStackTrace();
 		}
 
 	}
 
-	public void creerArbreBinaireRec(ArbreBinaire ab, String sligne, int index, boolean init) {
-		if(!sligne.equals("")) {
-			if(init) {
-				abp = ab;
-				init = false;
-			}
-
-			char lettre = sligne.charAt(0);
-			if(index >= sligne.length()) {
-				ab.setLettre(lettre);
-			}else {
-				char c = sligne.charAt(index);
-				if( c == '.' ) {
-					System.out.println(">.");
-					creerArbreBinaireRec(ab.creerRetournerGauche(), sligne , index+1, false);
-				}else if ( c == '-' ) {
-					System.out.println(">-");
-					creerArbreBinaireRec(ab.creerRetournerDroit(), sligne , index+1, false);
+	/**
+	 * Creer l'arbre binaire
+	 * @param ab
+	 * @param sligne
+	 * @param index
+	 * @param init
+	 */
+	private static void creerArbreBinaireRec(ArbreBinaire ab, String sligne, int index, boolean init) {
+		try {
+			if(!sligne.equals("")) {
+				if(init) {
+					abp = ab;
+					init = false;
+				}
+				char lettre = sligne.charAt(0);
+				if(index >= sligne.length()) {
+					ab.setLettre(lettre);
+				}else {
+					char c = sligne.charAt(index);
+					if( c == '.' ) {
+						System.out.println(">.");
+						creerArbreBinaireRec(ab.creerRetournerGauche(), sligne , index+1, false);
+					}else if ( c == '-' ) {
+						System.out.println(">-");
+						creerArbreBinaireRec(ab.creerRetournerDroit(), sligne , index+1, false);
+					}
 				}
 			}
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("erreur > creation de l'arbre binaire");
+			e.printStackTrace();
 		}
 	}
 
-	public String convertirMorseTexte(String s) {
+	/**
+	 * Convertie Morse vers Texte
+	 * @param s
+	 * @return
+	 */
+	public static String convertirMorseTexte(String s) {
+		System.out.println(">=====================11=====================");
+		System.out.println("11 ::"+s+"§");
 		String res = "";
-
+		s = s + " ";
+		System.out.println("22 ::"+s+"§");
 		ArbreBinaire a = new ArbreBinaire();
 		a=abp;
 
 		for(int i = 0;i<s.length();i++) {
-			System.out.println("length "+s.length()+"   i::: "+i);
-			//try {
 			char c = s.charAt(i);
 			if( c == '.' ) {
-				System.out.println(">.");
-				a = a.getGauche();
-			}else if ( c == '-' ) {
-				System.out.println(">-");
-				a = a.getDroit();
-			}else if ( c == ' ') {
-				System.out.println("lettre :: "+a.getLettre());
-				res = res + a.getLettre();
-				if( s.charAt(i+1) == ' ' ) {
-					res = res + " ";
+				System.out.print(".");
+				try {
+					a = a.getGauche();
+				} catch (Exception e) {
+					// TODO: handle exception
 				}
+			}else if ( c == '-' ) {
+				System.out.print("-");
+				try {
+					a = a.getDroit();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}else if ( c == ' ') {
+				try {
+					System.out.print(""+a.getLettre()+":");
+					res = res+a.getLettre();
+					if(s.charAt(i+1) == ' ') {
+						res = res + " ";
+					}
+				}catch (Exception e) {
+					// TODO: handle exception
+					//System.out.println("La lettre n'est pas présente dans le dictionnaire de conversion");
+					System.out.print("[]:");
+				}
+				a=abp;
 			}
-			//System.out.println("zte "+res);
-			/*}catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}*/
+
 		}
+		System.out.println();
+		System.out.println("res:"+res);
+		System.out.println(">=====================22=====================");
+		return res;
 
-		System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzz  "+res);
-
-		return null;
 	}
-
-
-
 
 
 
@@ -155,10 +182,9 @@ public class Convertisseur {
 
 	public static void main(String[] args) throws IOException {
 
-		Convertisseur convertisseur = new Convertisseur();
-		convertisseur.chargerFichierConvertisseur();
+		Convertisseur.chargerFichierConvertisseur();
 
-		convertisseur.convertirMorseTexte(".- .--. -- -. .-.  -.-- --.. -.--  --..");
+		Convertisseur.convertirMorseTexte(".- .--. -- -. .-.  -.--. --.. -.--  --.. ");
 
 		Listelettre debutliste = txtsplit(Convertisseur.test());
 		//System.out.println("Equivalent de 'a' en morse depuis le liste : "+Listelettre.tradmorse('a', debutliste));
