@@ -97,13 +97,13 @@ public class Convertisseur {
 		
 		char ltr;
 		String resultatmorse = "";
-		String stringdetest="Je suce des bites";
+		String stringdetest="Geoffroy suce des bites";
 		System.out.println("Voici la traduction en morse de : "+stringdetest);
 		for(int i=0; i<stringdetest.length(); i++) {
 			ltr = stringdetest.charAt(i);
 			String tradchar = Listelettre.tradmorse(ltr, debutliste);
-			if (tradchar == "espace") tradchar = " ";
-			resultatmorse = resultatmorse + tradchar;
+			if (tradchar == "espace") tradchar = "  ";
+			resultatmorse = resultatmorse + tradchar+" ";
 		}	
 		System.out.println(resultatmorse);
 		
