@@ -76,7 +76,7 @@ public class Convertisseur {
 	 * @return
 	 */
 	public static String convertirMorseTexte(String s) {
-		System.out.println(">=====================11=====================");
+		System.out.println();
 		String res = "";
 		s = s + " ";
 		ArbreBinaire a = new ArbreBinaire();
@@ -100,34 +100,29 @@ public class Convertisseur {
 				}
 			}else if ( c == ' ') {
 				try {
-					System.out.print(""+a.getLettre()+":");
+					System.out.print(""+a.getLettre()+"|");
 					res = res+a.getLettre();
 					if(s.charAt(i+1) == ' ') {
 						res = res + " ";
 					}
 				}catch (Exception e) {
-					// TODO: handle exception
-					//System.out.println("La lettre n'est pas présente dans le dictionnaire de conversion");
-					System.out.print("[]:");
+					System.out.print("[]|");
 				}
 				a=abp;
 			}else if( c == '\n' ) {
 				try {
-					System.out.print("RC:");
+					System.out.print("RC|");
 					res = res+a.getLettre();
 					res = res + "\n";
 				}catch (Exception e) {
-					// TODO: handle exception
-					//System.out.println("La lettre n'est pas présente dans le dictionnaire de conversion");
-					System.out.print("[]:");
+					System.out.print("[]|");
 				}
 				a=abp;
 			}
 
 		}
 		System.out.println();
-		System.out.println("res:"+res);
-		System.out.println(">=====================22=====================");
+		System.out.println(res);
 		return res;
 
 	}

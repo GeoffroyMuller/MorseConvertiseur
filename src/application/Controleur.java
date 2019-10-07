@@ -45,7 +45,7 @@ public class Controleur {
 	}
 
 	@FXML
-	public void afficheBT_Test2() {
+	public void afficheBT_Test2() throws InterruptedException {
 		labelmsg.setText(">Testmsg");
 	}
 
