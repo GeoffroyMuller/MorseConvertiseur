@@ -92,7 +92,10 @@ public class Controleur {
 		}
 
 	}
-
+	
+	/**
+	 * Converti Automatiquement le Morse ou le Texte
+	 */
 	@FXML
 	public void Auto_Convertir() {
 		if(checkBoxAutoConv.isSelected()) {

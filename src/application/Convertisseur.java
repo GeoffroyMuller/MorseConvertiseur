@@ -77,10 +77,8 @@ public class Convertisseur {
 	 */
 	public static String convertirMorseTexte(String s) {
 		System.out.println(">=====================11=====================");
-		System.out.println("11 ::"+s+"§");
 		String res = "";
 		s = s + " ";
-		System.out.println("22 ::"+s+"§");
 		ArbreBinaire a = new ArbreBinaire();
 		a=abp;
 
@@ -107,6 +105,17 @@ public class Convertisseur {
 					if(s.charAt(i+1) == ' ') {
 						res = res + " ";
 					}
+				}catch (Exception e) {
+					// TODO: handle exception
+					//System.out.println("La lettre n'est pas présente dans le dictionnaire de conversion");
+					System.out.print("[]:");
+				}
+				a=abp;
+			}else if( c == '\n' ) {
+				try {
+					System.out.print("RC:");
+					res = res+a.getLettre();
+					res = res + "\n";
 				}catch (Exception e) {
 					// TODO: handle exception
 					//System.out.println("La lettre n'est pas présente dans le dictionnaire de conversion");
@@ -184,7 +193,7 @@ public class Convertisseur {
 
 		Convertisseur.chargerFichierConvertisseur();
 
-		Convertisseur.convertirMorseTexte(".- .--. -- -. .-.  -.--. --.. -.--  --.. ");
+		Convertisseur.convertirMorseTexte(".- .--. -- -. .-\n--.. -.--  --.. ");
 
 		Listelettre debutliste = txtsplit(Convertisseur.test());
 		//System.out.println("Equivalent de 'a' en morse depuis le liste : "+Listelettre.tradmorse('a', debutliste));
