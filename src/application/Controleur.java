@@ -1,6 +1,7 @@
 package application;
 
 import java.awt.Color;
+import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -85,6 +86,11 @@ public class Controleur {
 
 		if(bt_TexteMorse.isSelected()) {
 			//System.out.println("Texte > Morse");
+			try {
+				textarea_2.setText(Convertisseur.convertirtxtmorse(textarea_1.getText()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 		}else if(bt_MorseTexte.isSelected()) {
 			//System.out.println("Morse > Texte");
@@ -101,6 +107,11 @@ public class Controleur {
 		if(checkBoxAutoConv.isSelected()) {
 			if(bt_TexteMorse.isSelected()) {
 				//System.out.println("Texte > Morse");
+				try {
+					textarea_2.setText(Convertisseur.convertirtxtmorse(textarea_1.getText()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
 			}else if(bt_MorseTexte.isSelected()) {
 				//System.out.println("Morse > Texte");

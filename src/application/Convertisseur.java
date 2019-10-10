@@ -168,6 +168,21 @@ public class Convertisseur {
 		//System.out.println("Voici la strings de traduction : "+test);
 		return test;
 	}
+	
+	public static String convertirtxtmorse(String aconvertir) throws IOException {
+		Listelettre debutliste = txtsplit(Convertisseur.test());
+		char ltr;
+		String resultatmorse = "";
+		
+		System.out.println(aconvertir);
+		for(int i=0; i<aconvertir.length(); i++) {
+			ltr = aconvertir.charAt(i);
+			String tradchar = Listelettre.tradmorse(ltr, debutliste);
+			if (tradchar == "espace") tradchar = "  ";
+			resultatmorse = resultatmorse + tradchar+" ";
+		}	
+		return resultatmorse;
+	}
 
 
 
@@ -179,21 +194,6 @@ public class Convertisseur {
 
 		Convertisseur.convertirMorseTexte(".- .--. -- -. .-\n--.. -.--  --.. ");
 
-		Listelettre debutliste = txtsplit(Convertisseur.test());
-		//System.out.println("Equivalent de 'a' en morse depuis le liste : "+Listelettre.tradmorse('a', debutliste));
-
-		char ltr;
-		String resultatmorse = "";
-		String stringdetest="Geoffroy suce des bites"; // mettre sur cette variable le contenu du area
-
-		System.out.println("Voici la traduction en morse de : "+stringdetest);
-		for(int i=0; i<stringdetest.length(); i++) {
-			ltr = stringdetest.charAt(i);
-			String tradchar = Listelettre.tradmorse(ltr, debutliste);
-			if (tradchar == "espace") tradchar = "  ";
-			resultatmorse = resultatmorse + tradchar+" ";
-		}	
-		System.out.println(resultatmorse);
 
 	}
 
