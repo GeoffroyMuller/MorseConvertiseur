@@ -60,7 +60,7 @@ public class Controleur {
 		bt_MorseTexte.setSelected(false);
 		label_1.setText("Texte");
 		label_2.setText("Morse");
-
+		changerTexte();
 		//System.out.println("Texte > Morse");
 	}
 
@@ -74,7 +74,7 @@ public class Controleur {
 		bt_TexteMorse.setSelected(false);
 		label_1.setText("Morse");
 		label_2.setText("Texte");
-
+		changerTexte();
 		//System.out.println("Morse > Texte");
 	}
 
@@ -85,40 +85,44 @@ public class Controleur {
 	public void bt_Convertir() {
 
 		if(bt_TexteMorse.isSelected()) {
-			//System.out.println("Texte > Morse");
-			try {
-				textarea_2.setText(Convertisseur.convertirtxtmorse(textarea_1.getText()));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
+			textarea_2.setText(Convertisseur.convertirtxtmorse(textarea_1.getText()));
 		}else if(bt_MorseTexte.isSelected()) {
-			//System.out.println("Morse > Texte");
 			textarea_2.setText(Convertisseur.convertirMorseTexte(textarea_1.getText()));
 		}
 
 	}
-	
+
 	/**
-	 * Converti Automatiquement le Morse ou le Texte
+	 * Converti Automatiquement le Morse ou le Texte textarea_1 vers textarea_2
 	 */
 	@FXML
 	public void Auto_Convertir() {
 		if(checkBoxAutoConv.isSelected()) {
-			if(bt_TexteMorse.isSelected()) {
-				//System.out.println("Texte > Morse");
-				try {
-					textarea_2.setText(Convertisseur.convertirtxtmorse(textarea_1.getText()));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			bt_Convertir();
+		}
 
-			}else if(bt_MorseTexte.isSelected()) {
-				//System.out.println("Morse > Texte");
-				textarea_2.setText(Convertisseur.convertirMorseTexte(textarea_1.getText()));
+	}
+
+	/**
+	 * Converti Automatiquement le Morse ou le Texte textarea_2 vers textarea_1
+	 */
+	@FXML
+	public void Auto_Convertir_textarea_2() {
+		if(checkBoxAutoConv.isSelected()) {
+			if(bt_MorseTexte.isSelected()) {
+				textarea_1.setText(Convertisseur.convertirtxtmorse(textarea_2.getText()));
+			}else if(bt_TexteMorse.isSelected()) {
+				textarea_1.setText(Convertisseur.convertirMorseTexte(textarea_2.getText()));
 			}
 		}
 
+	}
+
+	private void changerTexte() {
+		String s1 = textarea_1.getText();
+		String s2 = textarea_2.getText();
+		textarea_1.setText(s2);
+		textarea_2.setText(s1);
 	}
 
 

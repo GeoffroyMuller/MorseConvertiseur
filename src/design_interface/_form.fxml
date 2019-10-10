@@ -33,7 +33,7 @@
          <right>
             <Pane prefHeight="281.0" prefWidth="378.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextArea fx:id="textarea_2" layoutY="35.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="337.0" prefWidth="379.0" />
+                  <TextArea fx:id="textarea_2" layoutY="35.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#Auto_Convertir_textarea_2" prefHeight="337.0" prefWidth="379.0" />
                   <Label fx:id="label_2" layoutX="172.0" layoutY="4.0" text="Texte" textAlignment="CENTER">
                      <font>
                         <Font size="15.0" />
@@ -61,6 +61,6 @@
          </font>
       </Text>
       <Label fx:id="labelmsg" layoutX="21.0" layoutY="482.0" text="&gt;" textFill="#838080" />
-      <CheckBox fx:id="checkBoxAutoConv" layoutX="562.0" layoutY="496.0" mnemonicParsing="false" text="AutoConversion" />
+      <CheckBox fx:id="checkBoxAutoConv" layoutX="562.0" layoutY="496.0" mnemonicParsing="false" text="AutoConversion" selected="true"/>
    </children>
 </AnchorPane>

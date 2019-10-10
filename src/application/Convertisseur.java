@@ -15,7 +15,6 @@ public class Convertisseur {
 	 * Charge le fichier de convertion
 	 */
 	public static void chargerFichierConvertisseur(){
-
 		try {
 			String fichier = "src/centre/Convertisseur.txt";
 			BufferedReader bfr = new BufferedReader(new FileReader(fichier));
@@ -76,7 +75,7 @@ public class Convertisseur {
 	 * @return
 	 */
 	public static String convertirMorseTexte(String s) {
-		System.out.println();
+		System.out.println("fffffffffffffff");
 		String res = "";
 		s = s + " ";
 		ArbreBinaire a = new ArbreBinaire();
@@ -168,19 +167,24 @@ public class Convertisseur {
 		//System.out.println("Voici la strings de traduction : "+test);
 		return test;
 	}
-	
-	public static String convertirtxtmorse(String aconvertir) throws IOException {
-		Listelettre debutliste = txtsplit(Convertisseur.test());
-		char ltr;
+
+	public static String convertirtxtmorse(String aconvertir){
+		Listelettre debutliste;
 		String resultatmorse = "";
-		
-		System.out.println(aconvertir);
-		for(int i=0; i<aconvertir.length(); i++) {
-			ltr = aconvertir.charAt(i);
-			String tradchar = Listelettre.tradmorse(ltr, debutliste);
-			if (tradchar == "espace") tradchar = "  ";
-			resultatmorse = resultatmorse + tradchar+" ";
-		}	
+		try {
+			debutliste = txtsplit(Convertisseur.test());
+			char ltr;
+			System.out.println(aconvertir);
+			for(int i=0; i<aconvertir.length(); i++) {
+				ltr = aconvertir.charAt(i);
+				String tradchar = Listelettre.tradmorse(ltr, debutliste);
+				if (tradchar == "espace") tradchar = "  ";
+				resultatmorse = resultatmorse + tradchar+" ";
+			}	
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return resultatmorse;
 	}
 
