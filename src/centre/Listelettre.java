@@ -1,10 +1,10 @@
-package application;
+package centre;
 
 
 public class Listelettre {
-	char lettre;
-	String morse;
-	Listelettre suiv;
+	public char lettre;
+	public String morse;
+	public Listelettre suiv;
 	
 	public static boolean estvide(Listelettre l) {
 		return l==null;
@@ -49,6 +49,7 @@ public class Listelettre {
 	public static String tradmorse (char lettre, Listelettre l) {
 		String conv ="";
 		if (lettre == ' ') return "espace";
+		if (lettre == '\n') return "rt";
 		while (! estvide(l))
 		{
 			if (Character.toLowerCase(l.valeurlettre())==Character.toLowerCase(lettre))

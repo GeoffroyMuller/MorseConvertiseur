@@ -24,6 +24,8 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
+                  <Button fx:id="bt_charger" layoutY="378.0" mnemonicParsing="false" onAction="#chargerFichier" text="Charger" />
+                  <Label fx:id="label_charger" layoutX="68.0" layoutY="382.0" prefHeight="17.0" prefWidth="218.0" text="/Convertir/Morse.txt" />
                </children>
                <BorderPane.margin>
                   <Insets />
@@ -39,6 +41,8 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
+                  <Button fx:id="bt_enregistrer" layoutY="378.0" onAction="#enregistrerFichier" mnemonicParsing="false" text="Enregistrer" />
+                  <Label fx:id="label_enregistrer" layoutX="82.0" layoutY="382.0" prefHeight="17.0" prefWidth="189.0" text="/Convertir/Texte.txt" />
                </children>
             </Pane>
          </right>
@@ -60,7 +64,11 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Label fx:id="labelmsg" layoutX="21.0" layoutY="482.0" text="&gt;" textFill="#838080" />
-      <CheckBox fx:id="checkBoxAutoConv" layoutX="562.0" layoutY="496.0" mnemonicParsing="false" text="AutoConversion" selected="true"/>
+      <Label fx:id="labelmsg" layoutX="22.0" layoutY="531.0" text="&gt;" textFill="#838080" />
+      <CheckBox fx:id="checkBoxAutoConv" layoutX="562.0" layoutY="496.0" mnemonicParsing="false" selected="true" text="AutoConversion" />
+      <Button fx:id="bt_Test" layoutX="897.0" layoutY="527.0" mnemonicParsing="false" onAction="#afficheBT_Test2" opacity="0.06" prefHeight="25.0" prefWidth="23.0" text="T" />
+      <Text fill="#726e6e" layoutX="368.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="By Geoffroy Muller &amp; Kenny Lescure " />
+      <Button fx:id="bt_chargerdico" layoutX="22.0" layoutY="501.0" mnemonicParsing="false" onAction="#chargerDictionnaire" prefHeight="25.0" prefWidth="136.0" text="Charger  Dictionnaire" />
+      <Label layoutX="165.0" layoutY="505.0" prefHeight="17.0" prefWidth="106.0" text="/Convertisseur.txt" />
    </children>
 </AnchorPane>

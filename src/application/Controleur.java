@@ -1,8 +1,5 @@
 package application;
 
-import java.awt.Color;
-import java.io.IOException;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -17,7 +14,11 @@ public class Controleur {
 	@FXML
 	private Label label_2;
 	@FXML
-	private Label labelmsg;
+	private Label label_charger;
+	@FXML
+	private Label label_enregistrer;
+	@FXML
+	private static Label labelmsg;
 
 	@FXML
 	private TextArea textarea_1;
@@ -50,6 +51,12 @@ public class Controleur {
 		labelmsg.setText(">Testmsg");
 	}
 
+	@FXML
+	public static void affiche_Erreur(String s){
+		labelmsg.setTextFill(Paint.valueOf("#A30000"));
+		labelmsg.setText(">"+s);
+	}
+	
 	/**
 	 * change l'etat du bt TexteMorse
 	 */
@@ -59,7 +66,9 @@ public class Controleur {
 		bt_MorseTexte.setDisable(false);
 		bt_MorseTexte.setSelected(false);
 		label_1.setText("Texte");
+		label_charger.setText("/Convertir/Texte.txt");
 		label_2.setText("Morse");
+		label_enregistrer.setText("/Convertir/Morse.txt");
 		changerTexte();
 		//System.out.println("Texte > Morse");
 	}
@@ -73,7 +82,9 @@ public class Controleur {
 		bt_TexteMorse.setDisable(false);
 		bt_TexteMorse.setSelected(false);
 		label_1.setText("Morse");
+		label_charger.setText("/Convertir/Morse.txt");
 		label_2.setText("Texte");
+		label_enregistrer.setText("/Convertir/Texte.txt");
 		changerTexte();
 		//System.out.println("Morse > Texte");
 	}
@@ -93,7 +104,7 @@ public class Controleur {
 	}
 
 	/**
-	 * Converti Automatiquement le Morse ou le Texte textarea_1 vers textarea_2
+	 * Converti Automatiquement le Morse ou le Texte textarea_1 vers textarea_2 (checkBoxAutoConv doit etre selectionner)
 	 */
 	@FXML
 	public void Auto_Convertir() {
@@ -104,7 +115,7 @@ public class Controleur {
 	}
 
 	/**
-	 * Converti Automatiquement le Morse ou le Texte textarea_2 vers textarea_1
+	 * Converti Automatiquement le Morse ou le Texte textarea_2 vers textarea_1 (checkBoxAutoConv doit etre selectionner)
 	 */
 	@FXML
 	public void Auto_Convertir_textarea_2() {
@@ -118,13 +129,54 @@ public class Controleur {
 
 	}
 
+	/**
+	 * Echange le texte  textarea_1 vers textarea_2 et textarea_2 vers textarea_1
+	 */
 	private void changerTexte() {
 		String s1 = textarea_1.getText();
 		String s2 = textarea_2.getText();
 		textarea_1.setText(s2);
 		textarea_2.setText(s1);
+		Auto_Convertir();
 	}
 
+	/**
+	 * Charge le fichier Morse.txt ou le fichier Texte.txt (selon le bt selectionner)
+	 * @throws InterruptedException
+	 */
+	@FXML
+	public void chargerFichier() throws InterruptedException {
+		if(bt_MorseTexte.isSelected()) {
+			textarea_1.setText(Convertisseur.chargerFichier("/Convertir/Morse.txt"));
+		}else if(bt_TexteMorse.isSelected()) {
+			textarea_1.setText(Convertisseur.chargerFichier("/Convertir/Texte.txt"));
+		}
+		Auto_Convertir();
+	}
 
+	/**
+	 * Charge le dictionnaire
+	 * @throws InterruptedException
+	 */
+	@FXML
+	public void chargerDictionnaire() throws InterruptedException {
+		Convertisseur.chargerFichierConvertisseur();
+		Auto_Convertir();
+	}
+
+	/**
+	 * enregistrement fichier.txt en fonction du bt selectionner
+	 * @throws InterruptedException
+	 */
+	@FXML
+	public void enregistrerFichier() throws InterruptedException {
+		
+		if(bt_MorseTexte.isSelected()) {
+			Convertisseur.enregistrerFichier("Convertir/Texte.txt", textarea_2.getText());
+		}else if(bt_TexteMorse.isSelected()) {
+			Convertisseur.enregistrerFichier("Convertir/Morse.txt", textarea_2.getText());
+		}
+		Auto_Convertir();
+	}
 
 }

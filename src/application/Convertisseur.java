@@ -1,64 +1,77 @@
 package application;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
 
 import centre.ArbreBinaire;
-
+import centre.Listelettre;
 public class Convertisseur {
 
 
-	public static ArbreBinaire abp ;
+	public static ArbreBinaire arbrebinaire_tete ;
+	public static Listelettre listedelettre_tete ;
 
 	/**
 	 * Charge le fichier de convertion
 	 */
 	public static void chargerFichierConvertisseur(){
 		try {
-			String fichier = "src/centre/Convertisseur.txt";
-			BufferedReader bfr = new BufferedReader(new FileReader(fichier));
-			System.out.println(">fichier "+fichier+" charger");
+			InputStream in = Convertisseur.class.getClass().getResourceAsStream("/Convertisseur.txt");
+			BufferedReader bfr = new BufferedReader(new InputStreamReader(in));
+
+			System.out.println(">fichier charger");
 			String sligne = "";
-			abp = new ArbreBinaire();
-			ArbreBinaire abs = new ArbreBinaire();
+			String chaineliste ="";
+
+			arbrebinaire_tete = new ArbreBinaire();
+			ArbreBinaire arbrecourant = new ArbreBinaire();
+
 			while((sligne = bfr.readLine())!=null) {
 				System.out.println("ligne : "+sligne);
-				creerArbreBinaireRec(abs, sligne, 2, true);
+				creerArbreBinaireRec(arbrecourant, sligne, 2, true);
+				chaineliste = chaineliste + sligne+"/";
 			}
-		}catch (IOException e) {
+			listedelettre_tete = creerListedelettre(chaineliste);
+			bfr.close();
+		}catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("erreur > chargement du dictionnaire (fichier \"Convertisseur.txt\")");
-			e.printStackTrace();
+			System.out.println("erreur > chargement du dictionnaire (\"Convertisseur.txt\") impossible");
+			//e.printStackTrace();
 		}
 
 	}
 
 	/**
 	 * Creer l'arbre binaire
-	 * @param ab
+	 * @param arbrecourant
 	 * @param sligne
 	 * @param index
 	 * @param init
 	 */
-	private static void creerArbreBinaireRec(ArbreBinaire ab, String sligne, int index, boolean init) {
+	private static void creerArbreBinaireRec(ArbreBinaire arbrecourant, String sligne, int index, boolean init) {
 		try {
 			if(!sligne.equals("")) {
 				if(init) {
-					abp = ab;
+					arbrebinaire_tete = arbrecourant;
 					init = false;
 				}
 				char lettre = sligne.charAt(0);
 				if(index >= sligne.length()) {
-					ab.setLettre(lettre);
+					arbrecourant.setLettre(lettre);
 				}else {
 					char c = sligne.charAt(index);
 					if( c == '.' ) {
 						System.out.println(">.");
-						creerArbreBinaireRec(ab.creerRetournerGauche(), sligne , index+1, false);
+						creerArbreBinaireRec(arbrecourant.creerRetournerGauche(), sligne , index+1, false);
 					}else if ( c == '-' ) {
 						System.out.println(">-");
-						creerArbreBinaireRec(ab.creerRetournerDroit(), sligne , index+1, false);
+						creerArbreBinaireRec(arbrecourant.creerRetournerDroit(), sligne , index+1, false);
 					}
 				}
 			}
@@ -71,67 +84,22 @@ public class Convertisseur {
 
 	/**
 	 * Convertie Morse vers Texte
-	 * @param s
-	 * @return
+	 * @param s morse
+	 * @return texte
 	 */
 	public static String convertirMorseTexte(String s) {
-		System.out.println("fffffffffffffff");
-		String res = "";
-		s = s + " ";
-		ArbreBinaire a = new ArbreBinaire();
-		a=abp;
-
-		for(int i = 0;i<s.length();i++) {
-			char c = s.charAt(i);
-			if( c == '.' ) {
-				System.out.print(".");
-				try {
-					a = a.getGauche();
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-			}else if ( c == '-' ) {
-				System.out.print("-");
-				try {
-					a = a.getDroit();
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-			}else if ( c == ' ') {
-				try {
-					System.out.print(""+a.getLettre()+"|");
-					res = res+a.getLettre();
-					if(s.charAt(i+1) == ' ') {
-						res = res + " ";
-					}
-				}catch (Exception e) {
-					System.out.print("[]|");
-				}
-				a=abp;
-			}else if( c == '\n' ) {
-				try {
-					System.out.print("RC|");
-					res = res+a.getLettre();
-					res = res + "\n";
-				}catch (Exception e) {
-					System.out.print("[]|");
-				}
-				a=abp;
-			}
-
-		}
-		System.out.println();
-		System.out.println(res);
-		return res;
-
+		return arbrebinaire_tete.chercherTexteCorrespondant(s);
 	}
+
+
+
 
 	/**
 	 * Creer la liste
 	 * @param remplirconv string qui contient l'ensemble du dictionnaire
 	 * @return
 	 */
-	public static Listelettre txtsplit(String remplirconv) {
+	public static Listelettre creerListedelettre(String remplirconv) {
 
 		String[] parts = remplirconv.split("/"); // Tableau constitué des couples Lettre & morse 
 		Listelettre precedent = null; //noeuds precedent de celui qu'on traitera a chaque tour du while
@@ -151,43 +119,80 @@ public class Convertisseur {
 		return premier;
 	}
 
-
-	public static String test() throws IOException {
-		String fichier = "src/centre/Convertisseur.txt";
-		BufferedReader bfr = new BufferedReader(new FileReader(fichier));
-		System.out.println(">fichier "+fichier+" charger");
-		String res = "";
-		String sligne = "";
-		String[] smots;
-		String test ="";
-
-		while((sligne = bfr.readLine())!=null) {
-			test = test + sligne+"/";
-		}
-		//System.out.println("Voici la strings de traduction : "+test);
-		return test;
-	}
-
+	/**
+	 * Convertie Texte vers Morse
+	 * @param aconvertir
+	 * @return
+	 */
 	public static String convertirtxtmorse(String aconvertir){
-		Listelettre debutliste;
 		String resultatmorse = "";
-		try {
-			debutliste = txtsplit(Convertisseur.test());
-			char ltr;
-			System.out.println(aconvertir);
-			for(int i=0; i<aconvertir.length(); i++) {
-				ltr = aconvertir.charAt(i);
-				String tradchar = Listelettre.tradmorse(ltr, debutliste);
-				if (tradchar == "espace") tradchar = "  ";
-				resultatmorse = resultatmorse + tradchar+" ";
-			}	
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		char ltr;
+		System.out.println(aconvertir);
+		for(int i=0; i<aconvertir.length(); i++) {
+			ltr = aconvertir.charAt(i);
+			String tradchar = Listelettre.tradmorse(ltr, listedelettre_tete);
+			if (tradchar == "espace") tradchar = " ";
+			if (tradchar == "rt") tradchar = "\n";
+			resultatmorse = resultatmorse + tradchar+" ";
+
+		}	
+
 		return resultatmorse;
 	}
 
+	/**
+	 * Charge le contenu du fichier choisi
+	 * @param fichier : String chemin du fichier
+	 * @return String contenu dans fichier
+	 */
+	public static String chargerFichier(String fichier) {
+		String sligne = "";
+		String chaineliste ="";
+		try {
+			InputStream in = Convertisseur.class.getClass().getResourceAsStream(fichier);
+			BufferedReader bfr = new BufferedReader(new InputStreamReader(in));
+
+			System.out.println(">fichier charger ");
+
+
+			while((sligne = bfr.readLine())!=null) {
+				chaineliste = chaineliste + sligne+"\n";
+			}
+			bfr.close();
+		}catch (Exception e) {
+			System.out.println("erreur > chargement du fichier "+fichier+" impossible");
+			e.printStackTrace();
+		}
+		return chaineliste;
+	}
+
+	/**
+	 * Enregistre le dansle fichier specifier le contenu
+	 * @param fichier : chemin du fichier
+	 * @param contenu : String
+	 */
+	public static void enregistrerFichier(String fichier,String contenu) {
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter(fichier, "UTF-8");
+			//writer.println(La première ligne);
+			//writer.println(La deuxième ligne);
+			char c;
+			for(int i=0; i<contenu.length(); i++) {
+				c = contenu.charAt(i);
+				if(c == '\n') {
+					writer.println("");
+				}else {
+					writer.print(c);
+				}
+			}	
+			writer.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 
 
@@ -198,8 +203,42 @@ public class Convertisseur {
 
 		Convertisseur.convertirMorseTexte(".- .--. -- -. .-\n--.. -.--  --.. ");
 
-
+		Convertisseur.convertirtxtmorse("abbb babox");
 	}
+
+	/*public static String test() throws IOException {
+	InputStream in = Convertisseur.class.getClass().getResourceAsStream("/Convertisseur.txt");
+    BufferedReader bfr = new BufferedReader(new InputStreamReader(in));
+	String sligne = "";
+	String test ="";
+
+	while((sligne = bfr.readLine())!=null) {
+		test = test + sligne+"/";
+	}
+	bfr.close();
+	//System.out.println("Voici la strings de traduction : "+test);
+	return test;
+}*/
+
+	/*public static String convertirtxtmorse(String aconvertir){
+	Listelettre debutliste;
+	String resultatmorse = "";
+	try {
+		debutliste = creerListedelettre(Convertisseur.test());
+		char ltr;
+		System.out.println(aconvertir);
+		for(int i=0; i<aconvertir.length(); i++) {
+			ltr = aconvertir.charAt(i);
+			String tradchar = Listelettre.tradmorse(ltr, debutliste);
+			if (tradchar == "espace") tradchar = "  ";
+			resultatmorse = resultatmorse + tradchar+" ";
+		}	
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return resultatmorse;
+}*/
 
 
 }

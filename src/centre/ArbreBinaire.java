@@ -23,7 +23,67 @@ public class ArbreBinaire {
 		}
 		return droit;
 	}
+	
+	/**
+	 * Cherche le Texte correspondant au morse (String s)
+	 * @param s morse
+	 * @return texte
+	 */
+	public String chercherTexteCorrespondant(String s) {
+		String res = "";
+		s = s + " ";
+		ArbreBinaire a = new ArbreBinaire();
+		a=this;
 
+		for(int i = 0;i<s.length();i++) {
+			char c = s.charAt(i);
+			if( c == '.' ) {
+				System.out.print(".");
+				try {
+					a = a.getGauche();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}else if ( c == '-' ) {
+				System.out.print("-");
+				try {
+					a = a.getDroit();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}else if ( c == ' ') {
+				try {
+					System.out.print(""+a.getLettre()+"|");
+					res = res+a.getLettre();
+					if(s.charAt(i+1) == ' ') {
+						res = res + " ";
+					}
+				}catch (Exception e) {
+					System.out.print("[]|");
+				}
+				a=this;
+			}else if( c == '\n' ) {
+				try {
+					System.out.print("RC|");
+					res = res+a.getLettre();
+					res = res + "\n";
+				}catch (Exception e) {
+					System.out.print("[]|");
+				}
+				a=this;
+			}
+
+		}
+		System.out.println();
+		System.out.println(res);
+		return res;
+	}
+		
+	/**
+	 * Getter & Setter
+	 * @return
+	 */
+	
 	public ArbreBinaire getGauche() {
 		return gauche;
 	}
@@ -47,18 +107,5 @@ public class ArbreBinaire {
 	public void setLettre(char lettre) {
 		this.lettre = lettre;
 	}
-	
-
-	public void afficher() {
-		try {
-			System.out.println(">Arbre : "+this+" g:"+gauche+" d: "+droit+ " lettre: "+lettre);
-			gauche.afficher();
-			droit.afficher();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-	}
-	
 
 }
