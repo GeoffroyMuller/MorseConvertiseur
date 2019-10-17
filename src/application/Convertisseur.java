@@ -16,6 +16,9 @@ public class Convertisseur {
 
 	public static ArbreBinaire arbrebinaire_tete ;
 	public static Listelettre listedelettre_tete ;
+	
+	public static String message_ = "";			//msg d'etat 
+	public static boolean erreur_ = false;		//true = il ya une erreur 
 
 	/**
 	 * Charge le fichier de convertion
@@ -39,10 +42,12 @@ public class Convertisseur {
 			}
 			listedelettre_tete = creerListedelettre(chaineliste);
 			bfr.close();
+			message("dictionnaire \"Convertisseur.txt\" charger", false);
+			
 		}catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("erreur > chargement du dictionnaire (\"Convertisseur.txt\") impossible");
-			//e.printStackTrace();
+			message("erreur > chargement du dictionnaire (\"Convertisseur.txt\") impossible", true);
+			e.printStackTrace();
 		}
 
 	}
@@ -75,10 +80,12 @@ public class Convertisseur {
 					}
 				}
 			}
+			message("arbre binaire creer", false);
 		}catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("erreur > creation de l'arbre binaire");
+			message("erreur > creation de l'arbre binaire", true);
 			e.printStackTrace();
+			
 		}
 	}
 
@@ -160,8 +167,9 @@ public class Convertisseur {
 				chaineliste = chaineliste + sligne+"\n";
 			}
 			bfr.close();
+			message("fichier "+fichier+" charger", false);
 		}catch (Exception e) {
-			System.out.println("erreur > chargement du fichier "+fichier+" impossible");
+			message("erreur > chargement du fichier "+fichier+" impossible", true);
 			e.printStackTrace();
 		}
 		return chaineliste;
@@ -188,13 +196,20 @@ public class Convertisseur {
 				}
 			}	
 			writer.close();
+
+			message("fichier "+fichier+" enregistrer", false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			message("erreur > enregistrement du fichier "+fichier+" impossible", true);
 			e.printStackTrace();
 		}
 	}
 
-
+	public static void message(String message, boolean erreur) {
+		erreur_ = erreur;
+		message_ = message;
+		System.out.println(""+message_);	
+	}
 
 
 	public static void main(String[] args) throws IOException {

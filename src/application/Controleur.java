@@ -18,7 +18,7 @@ public class Controleur {
 	@FXML
 	private Label label_enregistrer;
 	@FXML
-	private static Label labelmsg;
+	private Label labelmsg;
 
 	@FXML
 	private TextArea textarea_1;
@@ -52,11 +52,17 @@ public class Controleur {
 	}
 
 	@FXML
-	public static void affiche_Erreur(String s){
-		labelmsg.setTextFill(Paint.valueOf("#A30000"));
-		labelmsg.setText(">"+s);
+	public void affiche_Msg(){
+		if(Convertisseur.erreur_)
+			labelmsg.setTextFill(Paint.valueOf("#A30000"));
+		else
+			labelmsg.setTextFill(Paint.valueOf("#00EB14"));
+
+		labelmsg.setText(">"+Convertisseur.message_);
+		Convertisseur.message_ = "";
+		Convertisseur.erreur_ = false;
 	}
-	
+
 	/**
 	 * change l'etat du bt TexteMorse
 	 */
@@ -152,6 +158,7 @@ public class Controleur {
 			textarea_1.setText(Convertisseur.chargerFichier("/Convertir/Texte.txt"));
 		}
 		Auto_Convertir();
+		affiche_Msg();
 	}
 
 	/**
@@ -162,6 +169,7 @@ public class Controleur {
 	public void chargerDictionnaire() throws InterruptedException {
 		Convertisseur.chargerFichierConvertisseur();
 		Auto_Convertir();
+		affiche_Msg();
 	}
 
 	/**
@@ -170,13 +178,14 @@ public class Controleur {
 	 */
 	@FXML
 	public void enregistrerFichier() throws InterruptedException {
-		
+
 		if(bt_MorseTexte.isSelected()) {
 			Convertisseur.enregistrerFichier("Convertir/Texte.txt", textarea_2.getText());
 		}else if(bt_TexteMorse.isSelected()) {
 			Convertisseur.enregistrerFichier("Convertir/Morse.txt", textarea_2.getText());
 		}
 		Auto_Convertir();
+		affiche_Msg();
 	}
 
 }
