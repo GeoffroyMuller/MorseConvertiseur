@@ -28,7 +28,7 @@ public class Convertisseur {
 			InputStream in = Convertisseur.class.getClass().getResourceAsStream("/Convertisseur.txt");
 			BufferedReader bfr = new BufferedReader(new InputStreamReader(in));
 
-			System.out.println(">fichier charger");
+			System.out.println(">Lecture du dictionnaire \"Convertisseur.txt\"");
 			String sligne = "";
 			String chaineliste ="";
 
@@ -42,7 +42,7 @@ public class Convertisseur {
 			}
 			listedelettre_tete = creerListedelettre(chaineliste);
 			bfr.close();
-			message("dictionnaire \"Convertisseur.txt\" charger", false);
+			message("Dictionnaire \"Convertisseur.txt\" charge (arbrebinaire & listedelettre initialises)", false);
 			
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -72,15 +72,14 @@ public class Convertisseur {
 				}else {
 					char c = sligne.charAt(index);
 					if( c == '.' ) {
-						System.out.println(">.");
+						//System.out.println(">.");
 						creerArbreBinaireRec(arbrecourant.creerRetournerGauche(), sligne , index+1, false);
 					}else if ( c == '-' ) {
-						System.out.println(">-");
+						//System.out.println(">-");
 						creerArbreBinaireRec(arbrecourant.creerRetournerDroit(), sligne , index+1, false);
 					}
 				}
 			}
-			message("arbre binaire creer", false);
 		}catch (Exception e) {
 			// TODO: handle exception
 			message("erreur > creation de l'arbre binaire", true);

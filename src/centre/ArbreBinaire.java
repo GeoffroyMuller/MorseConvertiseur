@@ -59,7 +59,7 @@ public class ArbreBinaire {
 						res = res + " ";
 					}
 				}catch (Exception e) {
-					System.out.print("[]|");
+					//System.out.print("[]<|>");
 				}
 				a=this;
 			}else if( c == '\n' ) {
@@ -68,14 +68,14 @@ public class ArbreBinaire {
 					res = res+a.getLettre();
 					res = res + "\n";
 				}catch (Exception e) {
-					System.out.print("[]|");
+					//System.out.print("[]<|>");
 				}
 				a=this;
 			}
 
 		}
 		System.out.println();
-		System.out.println(res);
+		System.out.println(""+res);
 		return res;
 	}
 		
